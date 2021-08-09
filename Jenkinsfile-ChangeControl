@@ -1,4 +1,4 @@
-pipeline {
+  pipeline {
    agent any
    tools {
       maven 'Maven'
@@ -21,39 +21,6 @@ pipeline {
                 }
           }
         }
-      
-      stage("Create Artifact for prod") {
-           steps {
-              echo "Creating artifact"
-              sh 'mvn package'
-              sleep 3
-              snDevOpsArtifact(artifactsPayload:"""
-               {"artifacts": 
-                  [
-                     {
-                        "name": "mavenDemoProject-mvp.jar",
-                        "version":"0.${env.BUILD_NUMBER}.0",
-                        "semanticVersion": "0.${env.BUILD_NUMBER}.0",
-                        "repositoryName": "bicycle-artifacts-repo"
-                       }
-                    ]
-                 }""")
-              snDevOpsPackage(name: "avgbicycleewingapp", artifactsPayload: """
-              {"artifacts": 
-               [
-                  {
-                     "name": "mavenDemoProject-mvp.zip",
-                     "repositoryName": "bicycle-artifacts-repo",
-                     "pipelineName": "maven-buiild-pipeline",
-                     "taskExecutionNumber":"${env.BUILD_NUMBER}",
-                     "stageName":"Create Artifact for prod",
-                     "branchName": "master"
-                   }
-                 ]
-                }""")
-           }
-        }
-  
       stage("Deploy") {
              steps{
                   snDevOpsChange()

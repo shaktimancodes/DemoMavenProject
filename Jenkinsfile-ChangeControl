@@ -65,7 +65,10 @@ pipeline {
       stage('Deploy') {
          steps {
                   snDevOpsChange()
-                  def changeNumber = snDevOpsGetChangeNumber()
+                  script{
+                    def changeNumber = snDevOpsGetChangeNumber()
+                  }
+                  
                   echo '>> Deploy in prod'
                   echo 'ChangeNumber = ${changeNumber}'
          }

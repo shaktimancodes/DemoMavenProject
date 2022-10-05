@@ -67,10 +67,10 @@ pipeline {
                   snDevOpsChange()
                   script{
                     def changeNumber = snDevOpsGetChangeNumber()
-                  }
+                    echo '>> Deploy in prod'
+                    echo 'ChangeNumber = ${changeNumber}'
                   
-                  echo '>> Deploy in prod'
-                  echo 'ChangeNumber = ${changeNumber}'
+                  }
          }
       }
    }
